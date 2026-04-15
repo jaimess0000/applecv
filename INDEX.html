@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jaime Méndez — MacStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+   APPLE BASE STYLES & THEMING
+   ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* LIGHT MODE (Normal) */
+      --bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --text-main: #1d1d1f;
+      --text-sub: #86868b;
+      --nav-bg: rgba(255, 255, 255, 0.8);
+      --nav-border: rgba(0, 0, 0, 0.1);
+      --nav-link: rgba(0, 0, 0, 0.8);
+      --nav-link-hover: #000;
+      --icon-fill: #1d1d1f;
+
+      --badge-bg: rgba(0, 0, 0, 0.06);
+      --badge-text: #1d1d1f;
+
+      --hero-gradient: linear-gradient(180deg, #1d1d1f 0%, #86868b 100%);
+      --profile-border: rgba(0, 0, 0, 0.08);
+
+      --btn-primary-bg: #1d1d1f;
+      --btn-primary-text: #fff;
+      --btn-secondary-bg: rgba(0, 0, 0, 0.08);
+      --btn-secondary-text: #1d1d1f;
+      --btn-secondary-hover: rgba(0, 0, 0, 0.15);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      /* DARK MODE */
+      --bg: #000000;
+      --card-bg: #1c1c1e;
+      --text-main: #f5f5f7;
+      --text-sub: #86868b;
+      --nav-bg: rgba(0, 0, 0, 0.8);
+      --nav-border: rgba(255, 255, 255, 0.1);
+      --nav-link: rgba(255, 255, 255, 0.8);
+      --nav-link-hover: #fff;
+      --icon-fill: #f5f5f7;
+
+      --badge-bg: rgba(255, 255, 255, 0.1);
+      --badge-text: #f5f5f7;
+
+      --hero-gradient: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
+      --profile-border: rgba(255, 255, 255, 0.15);
+
+      --btn-primary-bg: #fff;
+      --btn-primary-text: #000;
+      --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+      --btn-secondary-text: #fff;
+      --btn-secondary-hover: rgba(255, 255, 255, 0.2);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* =========================================================
+   GLOBAL NAV
+   ========================================================= */
+    .apple-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      background: var(--nav-bg);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 9000;
+      transition: background 0.3s ease;
+    }
+
+    .apple-nav svg.logo {
+      fill: var(--icon-fill);
+      opacity: 0.8;
+      transition: fill 0.3s ease;
+    }
+
+    .apple-nav a {
+      color: var(--nav-link);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+
+    .apple-nav a:hover,
+    .apple-nav svg.logo:hover {
+      color: var(--nav-link-hover);
+      opacity: 1;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--nav-link);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      transition: color 0.3s;
+    }
+
+    .theme-toggle:hover {
+      color: var(--nav-link-hover);
+    }
+
+    /* =========================================================
+   SUB NAV (Product Nav)
+   ========================================================= */
+    .product-nav {
+      position: sticky;
+      top: 44px;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: var(--nav-bg);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 8999;
+      border-bottom: 1px solid var(--nav-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .product-nav .brand {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--text-main);
+      transition: color 0.3s;
+    }
+
+    .product-nav .buy-btn {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s, background 0.3s, color 0.3s;
+    }
+
+    .product-nav .buy-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* =========================================================
+   HERO SECTION (2 COLUMNS)
+   ========================================================= */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 60px;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        padding-top: 140px;
+      }
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 480px;
+    }
+
+    .hero-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 21px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      background: var(--hero-gradient);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 24px;
+      transition: background 0.3s;
+    }
+
+    .hero-desc {
+      font-size: clamp(19px, 2.5vw, 24px);
+      font-weight: 500;
+      color: var(--text-sub);
+      margin: 0 auto;
+      line-height: 1.35;
+      transition: color 0.3s;
+    }
+
+    @media (min-width: 900px) {
+      .hero-desc {
+        margin: 0;
+      }
+    }
+
+    /* =========================================================
+   IPHONE MOCKUP
+   ========================================================= */
+    .iphone-frame {
+      position: relative;
+      width: 340px;
+      height: 700px;
+      background: var(--card-bg);
+      border-radius: 54px;
+      /* Outer curve */
+      box-shadow:
+        0 0 0 10px #000,
+        0 0 0 14px #3a3a3c,
+        /* Titanium edge */
+        0 30px 60px rgba(0, 0, 0, 0.3);
+      /* Drop shadow */
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+    }
+
+    .iphone-frame:hover {
+      transform: perspective(1000px) rotateY(-2deg) rotateX(1deg) translateY(-8px);
+    }
+
+    /* Inner Screen Mask */
+    .iphone-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 54px;
+      /* MUST exactly match iphone-frame outer radius because they share identical boundaries */
+      overflow: hidden;
+      background: var(--bg);
+      z-index: 1;
+    }
+
+    /* Hardware details */
+    .iphone-island {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 32px;
+      background: #000;
+      border-radius: 16px;
+      z-index: 100;
+    }
+
+    .iphone-home {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 5px;
+      background: rgba(150, 150, 150, 0.4);
+      border-radius: 10px;
+      z-index: 100;
+    }
+
+    /* Glare Layer Overlay (Must be top layer, pointer-events none) */
+    .iphone-glare {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 54px;
+      /* MUST exactly match iphone-frame outer radius */
+      background: linear-gradient(110deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 30%, rgba(255, 255, 255, 0) 50%);
+      z-index: 110;
+      pointer-events: none;
+    }
+
+
+    /* =========================================================
+   IN-APP PROFILE UI 
+   ========================================================= */
+    .app-cover {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: url('foto_jaime.jpg') center 20% / cover no-repeat;
+    }
+
+    .app-top-nav {
+      position: absolute;
+      top: 54px;
+      /* Below dynamic island */
+      left: 0;
+      right: 0;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .app-top-nav .icon-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .app-wrapper {
+      position: relative;
+      background: var(--card-bg);
+      border-radius: 28px 28px 0 0;
+      margin-top: -28px;
+      /* Overlaps the cover image, identical to reference */
+      padding: 0 20px 20px;
+      height: calc(100% - 280px + 28px);
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      z-index: 20;
+    }
+
+
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 16px;
+      margin-bottom: 2px;
+    }
+
+    .app-name {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .app-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .app-btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--nav-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .app-btn-icon:hover {
+      background: var(--badge-bg);
+    }
+
+    .app-role {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .app-role strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .app-location {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+    }
+
+    .app-rating {
+      font-size: 12px;
+      color: #ff9f0a;
+      /* Apple star */
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 18px;
+    }
+
+    .app-rating span {
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+
+    .app-bio {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-main);
+      margin-bottom: 24px;
+    }
+
+    .app-tabs {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    .app-tabs .active {
+      color: var(--text-main);
+    }
+
+    .app-tabs-help {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-bottom: 14px;
+    }
+
+    /* Internal Card */
+    .app-card {
+      background: var(--bg);
+      border: 1px solid var(--nav-border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .app-card-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(41, 151, 255, 0.1);
+      color: #2997ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .app-card-info {
+      flex: 1;
+    }
+
+    .app-card-info h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .app-card-info p {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .app-card-info .price {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2997ff;
+    }
+
+    .app-card-add {
+      color: var(--text-main);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* =========================================================
+   SECTIONS
+   ========================================================= */
+    .section {
+      padding: 100px 20px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .section-headline {
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      line-height: 1.1;
+      transition: color 0.3s;
+    }
+
+    .section-sub {
+      font-size: 21px;
+      font-weight: 500;
+      color: var(--text-sub);
+      margin-bottom: 60px;
+      line-height: 1.4;
+      max-width: 800px;
+      transition: color 0.3s;
+    }
+
+    /* =========================================================
+   TILES GRID (BENTO)
+   ========================================================= */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .bento-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    .bento-card:hover {
+      transform: scale(1.02);
+    }
+
+    .bento-icon {
+      font-size: 40px;
+      margin-bottom: 24px;
+    }
+
+    .bento-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+      transition: color 0.3s;
+    }
+
+    .bento-text {
+      font-size: 17px;
+      color: var(--text-sub);
+      line-height: 1.4;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    /* =========================================================
+   EXPERIENCE LIST
+   ========================================================= */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .exp-item {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    @media (min-width: 768px) {
+      .exp-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .exp-item-content {
+      max-width: 600px;
+    }
+
+    .exp-item h3 {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+      transition: color 0.3s;
+    }
+
+    .exp-item p {
+      font-size: 17px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .exp-badge {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    @media (min-width: 768px) {
+      .exp-badge {
+        margin-top: 0;
+        margin-left: 20px;
+      }
+    }
+
+    /* =========================================================
+   SKILLS GRID
+   ========================================================= */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-bar-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 20px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    .skill-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+
+    .sk-track {
+      height: 6px;
+      background: var(--nav-border);
+      border-radius: 999px;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .sk-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2997ff, #30d158);
+      border-radius: 999px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skill-bar-card.in-view .sk-fill {
+      transform: scaleX(1);
+    }
+
+    /* =========================================================
+   FOOTER / CONTACT
+   ========================================================= */
+    .footer {
+      background: var(--card-bg);
+      padding: 80px 20px 120px;
+      text-align: center;
+      margin-top: 80px;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+
+    .footer-text {
+      font-size: 19px;
+      color: var(--text-sub);
+      margin-bottom: 40px;
+      transition: color 0.3s;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, background 0.3s, color 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--btn-secondary-hover);
+    }
+
+    /* =========================================================
+   VIDEO SCROLL SHOWCASE (NEW)
+   ========================================================= */
+    .video-showcase {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      /* Let GSAP handle the pin spacing */
+      background: #000;
+      overflow: hidden;
+    }
+
+    .video-sticky {
+      .video-sticky {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+      }
+
+      .video-sticky canvas {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.3;
+        /* Even stronger tint and more defocus */
+        filter: blur(2224px) contrast(1.4) brightness(0.3) saturate(13) sepia(11) hue-rotate(350deg);
+      }
+
+      .noise-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.06;
+        /* INCREASED from 0.08 to make the grain much stronger */
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      /* Apple-style floating text over video */
+      .video-text-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        /* Let clicks pass through */
+      }
+
+      .video-msg {
+        position: absolute;
+        color: #ffffff;
+        font-size: clamp(48px, 8vw, 96px);
+        /* Mayor protagonismo */
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+        filter: blur(10px);
+        max-width: 1000px;
+        padding: 0 20px;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 1), 0 4px 15px rgba(0, 0, 0, 0.8);
+      }
+  </style>
+</head>
+
+<body>
+
+  <!-- GLOBAL NAV -->
+  <nav class="apple-nav">
+    <svg class="logo" width="17" height="21" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+    </svg>
+    <a href="#perfil">Perfil</a>
+    <a href="#recorrido">Recorrido</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#experiencia">Experiencia</a>
+
+    <!-- Theme Toggle -->
+    <button id="theme-btn" class="theme-toggle" aria-label="Cambiar modo claro / oscuro">
+      <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+        viewBox="0 0 16 16" style="display:none;">
+        <path
+          d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+      </svg>
+      <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+        viewBox="0 0 16 16">
+        <path
+          d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- PRODUCT NAV -->
+  <div class="product-nav">
+    <div class="brand">Jaime Méndez</div>
+    <a href="#contacto" class="buy-btn">Contratar</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="perfil">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Candidato</div>
+      <h1 class="hero-title">Pasión Apple.</h1>
+      <p class="hero-desc">Orientado al cliente, al detalle y al cumplimiento de metas. Con facilidad de palabra,
+        actitud positiva y deseo genuino de representar a MacStore.</p>
+    </div>
+
+    <div class="hero-visual">
+      <!-- IPHONE MOCKUP -->
+      <div class="iphone-frame">
+        <div class="iphone-island"></div>
+        <div class="iphone-home"></div>
+
+        <div class="iphone-screen">
+          <!-- Inside App UI -->
+          <div class="app-cover">
+            <div class="app-top-nav">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M15 19l-7-7 7-7"></path>
+              </svg>
+              <div class="icon-group">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"></path>
+                </svg>
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78v0z">
+                  </path>
+                </svg>
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 12a1 1 0 100-2 1 1 0 000 2zm0 7a1 1 0 100-2 1 1 0 000 2zm0-14a1 1 0 100-2 1 1 0 000 2z">
+                  </path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="app-wrapper">
+
+            <div class="app-header">
+              <div>
+                <h2 class="app-name">Jaime</h2>
+                <div class="app-role">Asesor de Ventas <strong>MacStore</strong></div>
+              </div>
+              <div class="app-actions">
+                <a href="https://wa.me/7712162219" target="_blank" rel="noopener noreferrer" class="app-btn-icon"><svg
+                    width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path
+                      d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z">
+                    </path>
+                  </svg></a>
+                <a href="https://wa.me/7712162219" target="_blank" rel="noopener noreferrer" class="app-btn-icon"><svg
+                    width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"></path>
+                  </svg></a>
+              </div>
+            </div>
+
+            <div class="app-location">Pachuca / Mineral de la Reforma, MX</div>
+
+            <div class="app-rating">
+              ⭐ 5.0/5 <span>· Experiencia Premium</span>
+            </div>
+
+            <div class="app-bio">
+              ¡Hola a todos! Soy Jaime, apasionado por el ecosistema Apple. Me entusiasma integrarme al equipo de ventas
+              para brindar atención impecable. ¡Espero representar la marca en tu próxima sucursal!
+            </div>
+
+            <div class="app-tabs">
+              <span class="active">Servicio</span> <span>Tecnología</span> <span>Ventas</span>
+            </div>
+            <div class="app-tabs-help">
+              Pulsa la tarjeta para conocer disponibilidad o el icono "+" para contratar.
+            </div>
+
+            <div class="app-card">
+              <div class="app-card-img">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Gafete body -->
+                  <rect x="5" y="8" width="14" height="15" rx="3" fill="currentColor" />
+                  <!-- Clip -->
+                  <path d="M9 4V7H15V4C15 2.34315 13.6569 1 12 1C10.3431 1 9 2.34315 9 4Z" stroke="currentColor"
+                    stroke-width="2" />
+                  <circle cx="12" cy="5" r="1.5" fill="var(--bg)" />
+                  <!-- Punched out Apple Logo -->
+                  <path
+                    d="M15.06 17.06C14.56 17.81 14.02 18.54 13.22 18.55C12.42 18.56 12.15 18.06 11.23 18.06C10.3 18.06 10.02 18.54 9.25 18.56C8.45 18.59 7.84 17.75 7.33 17.01C6.29 15.5 5.49 12.72 6.55 10.85C7.08 9.93 8.03 9.33 9.06 9.31C9.84 9.3 10.58 9.85 11.06 9.85C11.53 9.85 12.44 9.2 13.38 9.3C13.78 9.32 14.89 9.45 15.6 10.5C15.54 10.54 14.28 11.28 14.29 12.82C14.31 14.66 15.9 15.28 15.9 15.28C15.9 15.32 15.65 16.16 15.06 17.06ZM11.59 7.27C12.03 6.77 12.33 6.04 12.25 5.3C11.63 5.35 10.85 5.75 10.4 6.27C10 6.74 9.66 7.47 9.77 8.2C10.45 8.25 11.16 7.86 11.59 7.27Z"
+                    fill="var(--bg)" />
+                </svg>
+              </div>
+              <div class="app-card-info">
+                <h4>Especialista Apple</h4>
+                <p>Disponibilidad de Horario</p>
+                <span class="price">Inmediata</span>
+              </div>
+              <button class="app-card-add">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 8v8M8 12h8"></path>
+                </svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GLARE MUST BE ON TOP of screen, but pointer-events:none -->
+        <div class="iphone-glare"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO SHOWCASE -->
+  <section class="video-showcase" id="recorrido">
+    <div class="video-sticky">
+      <canvas id="hero-canvas"></canvas>
+      <div class="noise-overlay"></div>
+
+      <div class="video-text-container">
+        <div class="video-msg msg-1">Entra al ecosistema.</div>
+        <div class="video-msg msg-2">Atención de primera línea.</div>
+        <div class="video-msg msg-3">Listo para el piso de ventas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO GRID (Tiles) -->
+  <section class="section" id="habilidades">
+    <h2 class="section-headline">Conoce al candidato.</h2>
+    <p class="section-sub">Atributos que marcan la diferencia en el piso de ventas.</p>
+
+    <div class="bento-grid">
+      <div class="bento-card">
+        <div class="bento-icon">🎯</div>
+        <h3 class="bento-title">Orientado a Metas</h3>
+        <p class="bento-text">Estándares altos, priorización y compromiso con resultados comerciales reales.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-icon">💬</div>
+        <h3 class="bento-title">Facilidad de Palabra</h3>
+        <p class="bento-text">Comunicación clara, empática y adaptada a cada tipo de cliente.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-icon">🍎</div>
+        <h3 class="bento-title">Apple Enthusiast</h3>
+        <p class="bento-text">Conocimiento profundo del ecosistema Apple: hardware, software y accesorios.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-icon">🤝</div>
+        <h3 class="bento-title">Trabajo en Equipo</h3>
+        <p class="bento-text">Colaborativo, responsable y con gran capacidad de adaptación a entornos dinámicos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section">
+    <h2 class="section-headline">Capacidades clave.</h2>
+    <p class="section-sub">Construido para destacar en entornos exigentes.</p>
+
+    <div class="skills-container">
+      <div class="skill-bar-card" data-pct="0.95">
+        <div class="skill-name">Atención personalizada</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:95%"></div>
+        </div>
+      </div>
+      <div class="skill-bar-card" data-pct="0.92">
+        <div class="skill-name">Tecnología Apple</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:92%"></div>
+        </div>
+      </div>
+      <div class="skill-bar-card" data-pct="0.90">
+        <div class="skill-name">Trabajo en equipo</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:90%"></div>
+        </div>
+      </div>
+      <div class="skill-bar-card" data-pct="0.88">
+        <div class="skill-name">Comunicación efectiva</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:88%"></div>
+        </div>
+      </div>
+      <div class="skill-bar-card" data-pct="0.86">
+        <div class="skill-name">Ventas y cierre</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:86%"></div>
+        </div>
+      </div>
+      <div class="skill-bar-card" data-pct="0.82">
+        <div class="skill-name">Demostración de producto</div>
+        <div class="sk-track">
+          <div class="sk-fill" style="--pct:82%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experiencia">
+    <h2 class="section-headline">Lo que he construido.</h2>
+    <p class="section-sub">Cada interacción con un cliente es una oportunidad de dejar huella.</p>
+
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-item-content">
+          <h3>Atención al cliente y ventas consultivas</h3>
+          <p>Atención personalizada en piso: escucha activa, diagnóstico de necesidad y recomendación de producto.
+            Explicación clara de beneficios, comparativas y soluciones (upsell/cross-sell). Seguimiento postventa para
+            asegurar satisfacción y resolver dudas.</p>
+        </div>
+        <div class="exp-badge">Retail / Servicio</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-item-content">
+          <h3>Entornos exigentes y enfoque a objetivos</h3>
+          <p>Trabajo con estándares altos, priorización y cumplimiento de metas. Actitud positiva, responsabilidad y
+            capacidad para aprender rápido en entornos de alta exigencia.</p>
+        </div>
+        <div class="exp-badge">Disciplina · Equipo</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-item-content">
+          <h3>Disponibilidad y compromiso</h3>
+          <p>Tiempo completo, no estudiante. Disponibilidad inmediata para horario retail. Documentación académica
+            (bachillerato concluido) disponible en entrevista.</p>
+        </div>
+        <div class="exp-badge">Full time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contacto">
+    <h2 class="footer-title">Hablemos.</h2>
+    <p class="footer-text">Pachuca / Mineral de la Reforma · Disponibilidad inmediata</p>
+    <div class="contact-links">
+      <a href="mailto:jaimess0000@gmail.com" class="btn-primary">Enviar Correo</a>
+      <a href="#" class="btn-secondary">📍 Pachuca, Hidalgo</a>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       SKILL BARS ANIMATION ON SCROLL
+       ============================================================ */
+    (function () {
+      const cards = document.querySelectorAll('.skill-bar-card');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const card = e.target;
+            const pct = card.dataset.pct;
+            const fill = card.querySelector('.sk-fill');
+            if (fill) fill.style.width = (parseFloat(pct) * 100) + '%';
+            card.classList.add('in-view');
+            obs.unobserve(card);
+          }
+        });
+      }, { threshold: 0.3 });
+      cards.forEach(c => obs.observe(c));
+    })();
+
+    /* ============================================================
+       THEME TOGGLE LOGIC
+       ============================================================ */
+    (function () {
+      const btn = document.getElementById('theme-btn');
+      const moon = document.getElementById('moon-icon');
+      const sun = document.getElementById('sun-icon');
+
+      // Set light mode as default, check local storage or system preference
+      let currentTheme = localStorage.getItem('theme');
+      if (!currentTheme) {
+        currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (theme === 'dark') {
+          moon.style.display = 'none';
+          sun.style.display = 'block';
+        } else {
+          sun.style.display = 'none';
+          moon.style.display = 'block';
+        }
+      }
+
+      // Initial application
+      applyTheme(currentTheme);
+
+      // Button click
+      btn.addEventListener('click', () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      });
+    })();
+  </script>
+
+  <!-- GSAP and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    /* ============================================================
+       VIDEO SCROLL ANIMATION (IMAGE SEQUENCE)
+       ============================================================ */
+    (function () {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const canvas = document.getElementById("hero-canvas");
+      if (!canvas) return;
+      const context = canvas.getContext("2d");
+
+      const frameCount = 120;
+      const currentFrame = index => `frames/frame_${(index).toString().padStart(4, '0')}.jpg`;
+
+      const images = [];
+      const sequence = { frame: 0 };
+
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        images.push(img);
+      }
+
+      images[0].onload = render;
+
+      function render() {
+        if (!images[sequence.frame] || !images[sequence.frame].complete) return;
+        const img = images[sequence.frame];
+
+        // Scale image to cover canvas (like object-fit: cover)
+        const canvasRatio = canvas.width / canvas.height;
+        const imgRatio = img.width / img.height;
+        let w, h;
+        if (canvasRatio > imgRatio) {
+          w = canvas.width;
+          h = canvas.width / imgRatio;
+        } else {
+          w = canvas.height * imgRatio;
+          h = canvas.height;
+        }
+        const x = (canvas.width - w) / 2;
+        const y = (canvas.height - h) / 2;
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, x, y, w, h);
+      }
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        render();
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas(); // init size
+
+      // Setup GSAP sequence timeline linked to scroll
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".video-showcase",
+          start: "top top",
+          end: "+=400%", // The section will be pinned for 4 times the viewport height
+          scrub: 1.5, // Smooth inertia
+          pin: true, // Blocks natural scroll until animation finishes!
+        }
+      });
+
+      // Background sequence
+      tl.to(sequence, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        onUpdate: render,
+        duration: frameCount
+      }, 0);
+
+      // Cinematic Text animations (synchronized to exactly fit within the 120 frame duration)
+      // Mensaje 1
+      tl.to(".msg-1", { opacity: 1, scale: 1, filter: "blur(0px)", duration: 15, y: 0 }, 5)     // Entra en el frame 5
+        .to(".msg-1", { opacity: 0, scale: 1.1, filter: "blur(10px)", duration: 10, y: -20 }, 30) // Sale en el frame 30
+        // Mensaje 2
+        .to(".msg-2", { opacity: 1, scale: 1, filter: "blur(0px)", duration: 15, y: 0 }, 45)    // Entra en el frame 45
+        .to(".msg-2", { opacity: 0, scale: 1.1, filter: "blur(10px)", duration: 10, y: -20 }, 70) // Sale en el frame 70
+        // Mensaje 3
+        .to(".msg-3", { opacity: 1, scale: 1, filter: "blur(0px)", duration: 15, y: 0 }, 85)    // Entra en el frame 85
+        .to(".msg-3", { opacity: 0, scale: 1.1, filter: "blur(10px)", duration: 15, y: -20 }, 105); // Sale en el frame 105
+
+    })();
+  </script>
+</body>
+
+</html>
